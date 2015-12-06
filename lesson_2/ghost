@@ -1,0 +1,44 @@
+# Ghost Game
+from random import randint
+print('Ghost Game')
+feeling_brave = True
+score = 0
+
+
+def just():
+    from time import sleep
+    print('wait')
+    sleep(2)
+
+
+def greet(who):
+    print('Hello, %s, %s', who[0], who)
+
+greet(input('Welcome, type your nickname:'))
+
+while feeling_brave:
+    ghost_door = randint(1, 3)
+    print('Three doors ahead...')
+    print('A ghost behind you.')
+    print('Which door do you open?')
+
+    door = input('1, 2 or 3?')
+    door_num = int(door)
+    if door_num == ghost_door:
+        print('GHOST!')
+        print('Run away')
+        just()
+        feeling_brave = False
+    elif door_num not in range(1, 3):
+        print('WTF!')
+        feeling_brave = False
+        menu = list()
+        menu.append(door_num)
+        if 4 in menu:
+            print('WHY FOUR???')
+    else:
+        print('No ghost!')
+        print('You enter the next room, your score now', score)
+        score += 1
+print('Game over! You scored', score)
+
