@@ -1,7 +1,9 @@
 from tkinter import *
 from random import randint
 from time import sleep, time
+from math import sqrt
 
+score = 0
 #  Drawing the window
 HEIGHT = 500
 WIDTH = 800
@@ -87,8 +89,23 @@ def del_bubbles(i):
 def clean_bubbles():
     for i in range(len(bub_id) - 1, -1, -1):
         x, y = get_coords(bub_id[i])
-        if x < GAP:
+        if x < -GAP:
             del_bubbles(i)
+
+
+def distance(id1, id2):
+    x1, y1 = get_coords(id1)
+    x2, y2 = get_coords(id2)
+    return sqrt((x2-x1)**2 + (y2-y1)**2)
+
+
+def collision():
+    points = 0
+    for bub in range(len(bub_id)-1, -1, -1):
+        if distance(ship_id2, bub_id[bub]) < (SHIP_R + bub_r[bub]):
+            points += (bub_r[bub] + bub_speed[bub])
+            del_bubbles(bub)
+    return points
 
 
 #  Main Game loop
@@ -97,6 +114,8 @@ while True:
         create_bubble()
     move_bubble()
     clean_bubbles()
+    score += collision()
+    print(score)
     window.update()
     sleep(0.01)
 
